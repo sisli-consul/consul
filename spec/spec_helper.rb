@@ -118,7 +118,7 @@ RSpec.configure do |config|
 
   config.before(:each, :application_zone_west_of_system_zone) do
     application_zone = ActiveSupport::TimeZone.new("Quito")
-    system_zone = ActiveSupport::TimeZone.new("Madrid")
+    system_zone = ActiveSupport::TimeZone.new("Istanbul")
 
     allow(Time).to receive(:zone).and_return(application_zone)
 
@@ -129,7 +129,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each, :with_non_utc_time_zone) do
-    application_zone = ActiveSupport::TimeZone.new("Madrid")
+    application_zone = ActiveSupport::TimeZone.new("Istanbul")
 
     allow(Time).to receive(:zone).and_return(application_zone)
   end
