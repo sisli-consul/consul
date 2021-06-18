@@ -1,0 +1,89 @@
+// Custom styles
+// 0. Global styles
+// 1. Header
+//
+
+// 0. Global styles
+// --------------------
+
+$sisli-blue: #179ff3;
+$sisli-red:  #e72f2a;
+
+// 1. Header
+// --------------------
+
+.top-bar {
+
+  .menu-icon::after {
+    background: $sisli-red;
+    box-shadow: 0 7px 0 $sisli-red, 0 14px 0 $sisli-red;
+  }
+
+  .menu-button {
+    font-size: rem-calc(8);
+  }
+}
+
+.top-bar-title,
+.top-bar-title::before {
+  background: $sisli-blue;
+}
+
+.top-bar-title {
+
+  @include breakpoint(small only) {
+    flex: 1 0 40%;
+  }
+}
+
+.sisli-logos {
+
+  @include breakpoint(small only) {
+    flex: 1 0 20%;
+    padding-top: $line-height / 4;
+    text-align: center;
+    width: 100%;
+
+    a {
+      height: auto;
+      padding: $line-height / 4;
+
+      img {
+        max-height: rem-calc(40);
+      }
+    }
+  }
+
+  a {
+    display: inline-block;
+
+    @include breakpoint(medium) {
+      height: rem-calc(70);
+      padding: 0 $line-height / 2;
+      vertical-align: middle;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.top-bar .menu > li {
+
+  a {
+
+    &.sign-in-link {
+
+      @include breakpoint(medium) {
+        background: $sisli-red;
+        border-radius: rem-calc(6);
+        color: #fff;
+      }
+    }
+  }
+
+  .button {
+    color: $sisli-red;
+  }
+}
