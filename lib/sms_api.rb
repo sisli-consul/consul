@@ -1,4 +1,3 @@
-require "open-uri"
 class SMSApi
   attr_accessor :client
 
@@ -9,29 +8,46 @@ class SMSApi
   def url
     return "" unless end_point_available?
 
-    open(Rails.application.secrets.sms_end_point).base_uri.to_s
-  end
-
-  def authorization
-    Base64.encode64("#{Rails.application.secrets.sms_username}:#{Rails.application.secrets.sms_password}")
+    Rails.application.secrets.sms_end_point
   end
 
   def sms_deliver(phone, code)
     return stubbed_response unless end_point_available?
 
-    response = client.call(:enviar_sms_simples, message: request(phone, code))
+    response = client.call(:send_sms, xml: xml_request(phone, code))
     success?(response)
   end
 
-  def request(phone, code)
-    { autorizacion:  authorization,
-      destinatarios: { destinatario: phone },
-      texto_mensaje: "Clave para verificarte: #{code}. Gobierno Abierto",
-      solicita_notificacion: "All" }
+  def xml_request(phone, code)
+    "<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns='#{Rails.application.secrets.sms_xmlns}'>
+       <soapenv:Header/>
+       <soapenv:Body>
+         <sendSms>
+           <requestXml>
+             <![CDATA[
+               <SendSms>
+                 <Username>#{Rails.application.secrets.sms_username}</Username>
+                 <Password>#{Rails.application.secrets.sms_password}</Password>
+                 <UserCode>#{Rails.application.secrets.sms_user_code}</UserCode>
+                 <AccountId>#{Rails.application.secrets.sms_account_id}</AccountId>
+                 <Originator>#{Rails.application.secrets.sms_originator}</Originator>
+                 <SendDate></SendDate>
+                 <ValidityPeriod>300</ValidityPeriod>
+                 <MessageText>Your verification key for #{Setting["url"]} is: #{code}</MessageText>
+                 <IsCheckBlackList>0</IsCheckBlackList>
+                 <ReceiverList>
+                   <Receiver>#{phone}</Receiver>
+                 </ReceiverList>
+               </SendSms>
+             ]]>
+             </requestXml>
+         </sendSms>
+       </soapenv:Body>
+     </soapenv:Envelope>"
   end
 
   def success?(response)
-    response.body[:respuesta_sms][:respuesta_servicio_externo][:texto_respuesta] == "Success"
+    response.body[:send_sms_response][:send_sms_result][:error_code] == "0"
   end
 
   def end_point_available?
@@ -40,16 +56,11 @@ class SMSApi
 
   def stubbed_response
     {
-      respuesta_sms: {
-        identificador_mensaje: "1234567",
-        fecha_respuesta: "Thu, 20 Aug 2015 16:28:05 +0200",
-        respuesta_pasarela: {
-          codigo_pasarela: "0000",
-          descripcion_pasarela: "Operación ejecutada correctamente."
-        },
-        respuesta_servicio_externo: {
-          codigo_respuesta: "1000",
-          texto_respuesta: "Success"
+      send_sms_response: {
+        send_sms_result: {
+          error_code: "0",
+          packet_id: "361304601",
+          message_id_list: { message_id: "8139550551" }
         }
       }
     }
