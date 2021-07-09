@@ -1,0 +1,9 @@
+tr:
+  layouts:
+    header:
+      sisli_belediyesi: "Sisli Belediyesi"
+      sisli_belediyesi_link: "https://www.sisli.bel.tr"
+      sisli_kent_konseyi: "Sisli Kent Konseyi"
+      sisli_kent_konseyi_link: "https://www.sislikentkonseyi.org"
+      benim_butcem: "Benim Butcem"
+      benim_butcem_link: "http://www.benimbutcem.com"
