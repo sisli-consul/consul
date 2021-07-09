@@ -6,7 +6,7 @@ describe "Voters" do
   let(:officer) { create(:poll_officer) }
 
   before do
-    create(:geozone, :in_census)
+    create(:geozone, :with_local_census_record)
     create(:poll_shift, officer: officer, booth: booth, date: Date.current, task: :vote_collection)
     create(:poll_officer_assignment, officer: officer, poll: poll, booth: booth)
     login_as(officer.user)

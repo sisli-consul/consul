@@ -3,8 +3,7 @@ class Signature < ApplicationRecord
   belongs_to :user
 
   validates :document_number, presence: true
-  validates :date_of_birth, presence: true, if: -> { Setting.force_presence_date_of_birth? }
-  validates :postal_code, presence: true, if: -> { Setting.force_presence_postal_code? }
+  validates :phone_number, presence: true
   validates :signature_sheet, presence: true
 
   scope :verified,   -> { where(verified: true) }
@@ -46,6 +45,7 @@ class Signature < ApplicationRecord
 
   def create_user
     user_params = {
+      username: document_number,
       document_number: document_number,
       created_from_signature: true,
       verified_at: Time.current,
@@ -53,9 +53,8 @@ class Signature < ApplicationRecord
       password: random_password,
       terms_of_service: "1",
       email: nil,
-      date_of_birth: @census_api_response.date_of_birth,
       gender: @census_api_response.gender,
-      geozone: Geozone.find_by(census_code: @census_api_response.district_code)
+      geozone: Geozone.find_by(name: @census_api_response.district_code)
     }
     User.create!(user_params)
   end
@@ -72,7 +71,7 @@ class Signature < ApplicationRecord
 
   def in_census?
     document_types.find do |document_type|
-      response = CensusCaller.new.call(document_type, document_number, date_of_birth, postal_code)
+      response = CensusCaller.new.call(document_type, document_number, phone_number)
       if response.valid?
         @census_api_response = response
         true
@@ -94,6 +93,6 @@ class Signature < ApplicationRecord
   end
 
   def document_types
-    %w[1 2 3 4]
+    %w[1]
   end
 end

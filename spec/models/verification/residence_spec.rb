@@ -1,34 +1,25 @@
 require "rails_helper"
 
 describe Verification::Residence do
-  let!(:geozone) { create(:geozone, census_code: "01") }
   let(:residence) { build(:verification_residence, document_number: "12345678Z") }
+
+  before { create(:geozone, :with_local_census_record) }
 
   describe "validations" do
     it "is valid" do
       expect(residence).to be_valid
     end
 
-    describe "dates" do
-      it "is valid with a valid date of birth" do
-        residence = Verification::Residence.new("date_of_birth(3i)" => "1", "date_of_birth(2i)" => "1", "date_of_birth(1i)" => "1980")
+    it "is not valid without a document number" do
+      residence.document_number = nil
 
-        expect(residence.errors[:date_of_birth]).to be_empty
-      end
-
-      it "is not valid without a date of birth" do
-        residence = Verification::Residence.new("date_of_birth(3i)" => "", "date_of_birth(2i)" => "", "date_of_birth(1i)" => "")
-        expect(residence).not_to be_valid
-        expect(residence.errors[:date_of_birth]).to include("can't be blank")
-      end
+      expect(residence).not_to be_valid
     end
 
-    it "validates user has allowed age" do
-      residence = Verification::Residence.new("date_of_birth(3i)" => "1",
-                                      "date_of_birth(2i)" => "1",
-                                      "date_of_birth(1i)" => 5.years.ago.year.to_s)
+    it "is not valid without a phone number" do
+      residence.phone_number = nil
+
       expect(residence).not_to be_valid
-      expect(residence.errors[:date_of_birth]).to include("You don't have the required age to participate")
     end
 
     it "validates uniquness of document_number" do
@@ -61,7 +52,7 @@ describe Verification::Residence do
   end
 
   describe "save" do
-    it "stores document number, document type, geozone, date of birth and gender" do
+    it "stores document number, document type, geozone, phone_number and gender" do
       user = create(:user)
       residence.user = user
       residence.save!
@@ -69,23 +60,21 @@ describe Verification::Residence do
       user.reload
       expect(user.document_number).to eq("12345678Z")
       expect(user.document_type).to eq("1")
-      expect(user.date_of_birth.year).to eq(1980)
-      expect(user.date_of_birth.month).to eq(12)
-      expect(user.date_of_birth.day).to eq(31)
+      expect(user.unconfirmed_phone).to eq("5555555555")
       expect(user.gender).to eq("male")
-      expect(user.geozone).to eq(geozone)
+      expect(user.geozone).to eq(Geozone.first)
     end
   end
 
   describe "tries" do
     it "increases tries after a call to the Census" do
-      residence.postal_code = "28011"
+      residence.phone_number = "6666666666"
       residence.valid?
       expect(residence.user.lock.tries).to eq(1)
     end
 
     it "does not increase tries after a validation error" do
-      residence.postal_code = ""
+      residence.phone_number = ""
       residence.valid?
       expect(residence.user.lock).to be nil
     end
@@ -101,8 +90,7 @@ describe Verification::Residence do
         user_id:         residence.user.id,
         document_number: "12345678Z",
         document_type:   "1",
-        date_of_birth:   Date.new(1980, 12, 31),
-        postal_code:     "28001"
+        phone_number:    "6666666666"
       )
     end
   end

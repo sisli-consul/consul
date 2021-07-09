@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_30_120400) do
+ActiveRecord::Schema.define(version: 2021_06_30_150500) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -576,6 +576,7 @@ ActiveRecord::Schema.define(version: 2021_06_30_120400) do
     t.string "district_code"
     t.integer "poll_officer_id"
     t.integer "year_of_birth"
+    t.string "phone_number"
     t.index ["user_id"], name: "index_failed_census_calls_on_user_id"
   end
 
@@ -1413,6 +1414,7 @@ ActiveRecord::Schema.define(version: 2021_06_30_120400) do
     t.datetime "updated_at"
     t.date "date_of_birth"
     t.string "postal_code"
+    t.string "phone_number"
   end
 
   create_table "site_customization_content_blocks", id: :serial, force: :cascade do |t|

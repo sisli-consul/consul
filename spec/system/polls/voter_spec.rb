@@ -11,7 +11,7 @@ describe "Voter" do
     let!(:answer_no) { create(:poll_question_answer, question: question, title: "No") }
 
     before do
-      create(:geozone, :in_census)
+      create(:geozone, :with_local_census_record)
       create(:poll_shift, officer: officer, booth: booth, date: Date.current, task: :vote_collection)
       create(:poll_officer_assignment, officer: officer, poll: poll, booth: booth)
     end
@@ -151,8 +151,6 @@ describe "Voter" do
         expect(page).to have_content "You have already participated in a physical booth. You can not participate again."
         expect(Poll::Voter.count).to eq(1)
 
-        visit root_path
-        click_link "Sign out"
         login_as(admin.user)
         visit admin_poll_recounts_path(poll)
 

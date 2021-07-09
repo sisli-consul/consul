@@ -4,27 +4,13 @@ describe LocalCensus do
   let(:api) { LocalCensus.new }
 
   describe "#call" do
-    let(:invalid_body) { nil }
-    let(:valid_body) { create(:local_census_record) }
+    it "returns the response for call to the local census records" do
+      allow_any_instance_of(LocalCensus::Response).to receive(:valid?).and_return true
+      expect(LocalCensusRecord).to receive(:find_by).with(document_type: 1,
+                                                          document_number: "12345678Z",
+                                                          phone_number: "5555555555")
 
-    it "returns the response for the first valid variant" do
-      allow(api).to receive(:get_record).with(1, "00123456").and_return(invalid_body)
-      allow(api).to receive(:get_record).with(1, "123456").and_return(invalid_body)
-      allow(api).to receive(:get_record).with(1, "0123456").and_return(valid_body)
-
-      response = api.call(1, "123456")
-
-      expect(response).to be_valid
-      expect(response.date_of_birth).to eq(Date.new(1970, 1, 31))
-    end
-
-    it "returns the last failed response" do
-      allow(api).to receive(:get_record).with(1, "00123456").and_return(invalid_body)
-      allow(api).to receive(:get_record).with(1, "123456").and_return(invalid_body)
-      allow(api).to receive(:get_record).with(1, "0123456").and_return(invalid_body)
-      response = api.call(1, "123456")
-
-      expect(response).not_to be_valid
+      expect(api.call(1, "12345678Z", "5555555555")).to be_valid
     end
   end
 end

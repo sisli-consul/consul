@@ -10,10 +10,7 @@ module Verifications
   def verify_residence
     select "DNI", from: "residence_document_type"
     fill_in "residence_document_number", with: "12345678Z"
-    select_date "31-#{I18n.l(Date.current.at_end_of_year, format: "%B")}-1980",
-                from: "residence_date_of_birth"
-
-    fill_in "residence_postal_code", with: "28013"
+    fill_in "residence_phone_number", with: "5555555555"
     check "residence_terms_of_service"
 
     click_button "new_residence_submit"
@@ -23,7 +20,7 @@ module Verifications
   def officing_verify_residence
     select "DNI", from: "residence_document_type"
     fill_in "residence_document_number", with: "12345678Z"
-    fill_in "residence_year_of_birth", with: "1980"
+    fill_in "residence_phone_number", with: "5555555555"
 
     click_button "Validate document"
 

@@ -1,6 +1,8 @@
 require "rails_helper"
 
 describe "Level two verification" do
+  before { create(:geozone, :with_local_census_record) }
+
   scenario "Verification with residency and sms" do
     create(:geozone)
     user = create(:user)
@@ -11,7 +13,6 @@ describe "Level two verification" do
 
     verify_residence
 
-    fill_in "sms_phone", with: "611111111"
     click_button "Send"
 
     expect(page).to have_content "Security code confirmation"

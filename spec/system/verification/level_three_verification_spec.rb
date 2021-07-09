@@ -1,8 +1,9 @@
 require "rails_helper"
 
 describe "Level three verification" do
+  before { create(:geozone, :with_local_census_record) }
+
   scenario "Verification with residency and verified sms" do
-    create(:geozone)
     user = create(:user)
 
     verified_user = create(:verified_user,
@@ -34,7 +35,6 @@ describe "Level three verification" do
   end
 
   scenario "Verification with residency and verified email" do
-    create(:geozone)
     user = create(:user)
 
     verified_user = create(:verified_user,
@@ -62,32 +62,5 @@ describe "Level three verification" do
 
     expect(page).not_to have_link "Verify my account"
     expect(page).to have_content "Account verified"
-  end
-
-  scenario "Verification with residency and sms and letter" do
-    create(:geozone)
-    user = create(:user)
-    login_as(user)
-
-    visit account_path
-    click_link "Verify my account"
-
-    verify_residence
-
-    fill_in "sms_phone", with: "611111111"
-    click_button "Send"
-
-    expect(page).to have_content "Security code confirmation"
-
-    user = user.reload
-    fill_in "sms_confirmation_code", with: user.sms_confirmation_code
-    click_button "Send"
-
-    expect(page).to have_content "Code correct"
-
-    click_link "Send me a letter with the code"
-
-    expect(page).to have_content "Thank you for requesting your maximum security code (only required for the final votes)."\
-                                 " In a few days we will send it to the address featuring in the data we have on file."
   end
 end

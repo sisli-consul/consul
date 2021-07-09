@@ -73,8 +73,8 @@ describe "Stats", :admin do
       expect(page).to have_content "TOTAL USERS\n1"
     end
 
-    scenario "Level 2 user Graph" do
-      create(:geozone)
+    scenario "Level 3 user Graph" do
+      create(:geozone, :with_local_census_record)
       visit account_path
       click_link "Verify my account"
       verify_residence
@@ -82,7 +82,7 @@ describe "Stats", :admin do
 
       visit admin_stats_path
 
-      expect(page).to have_content "LEVEL TWO USERS\n1"
+      expect(page).to have_content "LEVEL THREE USERS\n1"
     end
   end
 

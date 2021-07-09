@@ -12,6 +12,12 @@ FactoryBot.define do
     trait :in_census do
       census_code { "01" }
     end
+
+    trait :with_local_census_record do
+      after :create do |geozone|
+        create(:local_census_record, document_number: "12345678Z", neighborhood: geozone.name)
+      end
+    end
   end
 
   factory :banner do

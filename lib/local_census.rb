@@ -1,12 +1,7 @@
 include DocumentParser
 class LocalCensus
-  def call(document_type, document_number)
-    record = nil
-    get_document_number_variants(document_type, document_number).each do |variant|
-      record = Response.new(get_record(document_type, variant))
-      return record if record.valid?
-    end
-    record
+  def call(document_type, document_number, phone_number)
+    Response.new get_record(document_type, document_number, phone_number)
   end
 
   class Response
@@ -15,7 +10,7 @@ class LocalCensus
     end
 
     def valid?
-      @body.present? ? !@body.attributes.values.include?("" || nil) : false
+      @body.present?
     end
 
     def date_of_birth
@@ -26,27 +21,31 @@ class LocalCensus
       @body.postal_code
     end
 
+    def phone_number
+      @body.phone_number
+    end
+
     def district_code
-      @body.district_code
-    rescue
-      nil
+      @body.neighborhood
     end
 
     def gender
-      case @body.gender
-      when "Varón"
+      case @body.gender.upcase
+      when "ERKEK"
         "male"
-      when "Mujer"
+      when "KADIN"
         "female"
+      else
+        nil
       end
-    rescue NoMethodError
-      nil
     end
 
     def name
-      "#{@body.nombre} #{@body.apellido1}"
-    rescue
-      nil
+      @body.name
+    end
+
+    def surname
+      @body.surname
     end
 
     private
@@ -58,7 +57,9 @@ class LocalCensus
 
   private
 
-    def get_record(document_type, document_number)
-      LocalCensusRecord.find_by(document_type: document_type, document_number: document_number)
+    def get_record(document_type, document_number, phone_number)
+      LocalCensusRecord.find_by(document_type: document_type,
+                                document_number: document_number,
+                                phone_number: phone_number)
     end
 end

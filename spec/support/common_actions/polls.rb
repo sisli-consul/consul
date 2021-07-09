@@ -23,7 +23,6 @@ module Polls
   def confirm_phone(user = nil)
     user ||= User.last
 
-    fill_in "sms_phone", with: "611111111"
     click_button "Send"
 
     expect(page).to have_content "Enter the confirmation code sent to you by text message"

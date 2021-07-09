@@ -48,14 +48,8 @@ describe Signature do
       expect(signature).not_to be_valid
     end
 
-    it "is not valid without a date of birth" do
-      signature.date_of_birth = nil
-
-      expect(signature).not_to be_valid
-    end
-
-    it "is not valid without a postal_code" do
-      signature.postal_code = nil
+    it "is not valid without a phone_number" do
+      signature.phone_number = nil
 
       expect(signature).not_to be_valid
     end
@@ -162,6 +156,7 @@ describe Signature do
       end
 
       it "marks the vote as coming from a signature" do
+        create(:geozone, :with_local_census_record)
         signature = create(:signature, document_number: "12345678Z")
 
         signature.verify
@@ -171,8 +166,9 @@ describe Signature do
     end
 
     describe "inexistent user" do
+      before { create(:geozone, :with_local_census_record) }
+
       it "creates a user with that document number" do
-        create(:geozone, census_code: "01")
         signature = create(:signature, document_number: "12345678Z")
 
         signature.verify
@@ -184,7 +180,6 @@ describe Signature do
         expect(user.erased_at).to be
         expect(user.geozone).to be
         expect(user.gender).to be
-        expect(user.date_of_birth).to be
       end
 
       it "assign the vote to newly created user" do
@@ -221,20 +216,6 @@ describe Signature do
         signature.verify
 
         expect(signature).to be_verified
-      end
-    end
-
-    describe "document in census throught CustomCensusApi" do
-      it "calls assign_vote_to_user", :remote_census do
-        signature = create(:signature, document_number: "12345678Z",
-                                       date_of_birth: "31/12/1980",
-                                       postal_code: "28013")
-
-        mock_valid_remote_census_response
-
-        expect_any_instance_of(Signature).to receive(:assign_vote_to_user).exactly(1).times
-
-        signature.verify
       end
     end
 
