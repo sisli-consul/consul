@@ -1,0 +1,7 @@
+tr:
+  activerecord:
+    attributes:
+      local_census_record:
+        phone_number: "Telefon numarası"
+        gender: "Cinsiyet"
+        neighborhood: "Mahalle"

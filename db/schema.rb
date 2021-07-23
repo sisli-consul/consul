@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_01_100648) do
+ActiveRecord::Schema.define(version: 2021_06_30_150500) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -576,6 +576,7 @@ ActiveRecord::Schema.define(version: 2021_04_01_100648) do
     t.string "district_code"
     t.integer "poll_officer_id"
     t.integer "year_of_birth"
+    t.string "phone_number"
     t.index ["user_id"], name: "index_failed_census_calls_on_user_id"
   end
 
@@ -864,10 +865,14 @@ ActiveRecord::Schema.define(version: 2021_04_01_100648) do
   create_table "local_census_records", id: :serial, force: :cascade do |t|
     t.string "document_number", null: false
     t.string "document_type", null: false
-    t.date "date_of_birth", null: false
-    t.string "postal_code", null: false
+    t.string "date_of_birth"
+    t.string "postal_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.string "phone_number"
+    t.string "gender"
+    t.string "neighborhood"
     t.index ["document_number", "document_type"], name: "index_local_census_records_on_document_number_and_document_type", unique: true
     t.index ["document_number"], name: "index_local_census_records_on_document_number"
   end
@@ -1409,6 +1414,7 @@ ActiveRecord::Schema.define(version: 2021_04_01_100648) do
     t.datetime "updated_at"
     t.date "date_of_birth"
     t.string "postal_code"
+    t.string "phone_number"
   end
 
   create_table "site_customization_content_blocks", id: :serial, force: :cascade do |t|
@@ -1570,6 +1576,7 @@ ActiveRecord::Schema.define(version: 2021_04_01_100648) do
     t.boolean "public_interests", default: false
     t.boolean "recommended_debates", default: true
     t.boolean "recommended_proposals", default: true
+    t.string "name"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["geozone_id"], name: "index_users_on_geozone_id"

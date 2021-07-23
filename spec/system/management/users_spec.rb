@@ -1,10 +1,13 @@
 require "rails_helper"
 
 describe "Users" do
+  before { create :geozone, :with_local_census_record }
+
   scenario "Create a level 3 user with email from scratch" do
     login_as_manager
     visit management_document_verifications_path
     fill_in "document_verification_document_number", with: "12345678Z"
+    fill_in "document_verification_phone_number", with: "5555555555"
     click_button "Check document"
 
     expect(page).to have_content "Please introduce the email used on the account"
@@ -46,6 +49,7 @@ describe "Users" do
     login_as_manager
     visit management_document_verifications_path
     fill_in "document_verification_document_number", with: "12345678Z"
+    fill_in "document_verification_phone_number", with: "5555555555"
     click_button "Check document"
 
     expect(page).to have_content "Please introduce the email used on the account"
@@ -76,6 +80,7 @@ describe "Users" do
     login_as_manager(manager)
     visit management_document_verifications_path
     fill_in "document_verification_document_number", with: "12345678Z"
+    fill_in "document_verification_phone_number", with: "5555555555"
     click_button "Check document"
 
     expect(page).not_to have_content "This user account is already verified."
@@ -88,6 +93,7 @@ describe "Users" do
 
     visit management_document_verifications_path
     fill_in "document_verification_document_number", with: "12345678Z"
+    fill_in "document_verification_phone_number", with: "5555555555"
     click_button "Check document"
 
     expect(page).to have_content "no user account associated to it"

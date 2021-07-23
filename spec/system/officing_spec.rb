@@ -155,6 +155,10 @@ describe "Poll Officing" do
     create(:poll_officer_assignment, booth_assignment: booth_assignment, officer: officer1)
     create(:poll_officer_assignment, booth_assignment: booth_assignment, officer: officer2)
 
+    create(:geozone, name: "neighborhood")
+    create(:local_census_record, document_number: "12345678Z")
+    create(:local_census_record, document_number: "12345678Y")
+
     in_browser(:one) do
       login_as officer1.user
       visit officing_root_path
@@ -173,7 +177,7 @@ describe "Poll Officing" do
 
       select "DNI", from: "residence_document_type"
       fill_in "residence_document_number", with: "12345678Z"
-      fill_in "residence_year_of_birth", with: "1980"
+      fill_in "residence_phone_number", with: "5555555555"
       click_button "Validate document"
       expect(page).to have_content "Document verified with Census"
       click_button "Confirm vote"
@@ -192,7 +196,7 @@ describe "Poll Officing" do
 
       select "DNI", from: "residence_document_type"
       fill_in "residence_document_number", with: "12345678Y"
-      fill_in "residence_year_of_birth", with: "1980"
+      fill_in "residence_phone_number", with: "5555555555"
       click_button "Validate document"
       expect(page).to have_content "Document verified with Census"
       click_button "Confirm vote"

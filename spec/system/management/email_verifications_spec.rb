@@ -2,12 +2,15 @@ require "rails_helper"
 
 describe "EmailVerifications" do
   scenario "Verifying a level 1 user via email" do
+    create(:geozone, :with_local_census_record)
+
     login_as_manager
 
     user = create(:user)
 
     visit management_document_verifications_path
     fill_in "document_verification_document_number", with: "12345678Z"
+    fill_in "document_verification_phone_number", with: "5555555555"
     click_button "Check document"
 
     expect(page).to have_content "Please introduce the email used on the account"

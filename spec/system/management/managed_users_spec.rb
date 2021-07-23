@@ -1,6 +1,8 @@
 require "rails_helper"
 
 describe "Managed User" do
+  before { create(:geozone, :with_local_census_record) }
+
   context "Currently managed user" do
     scenario "No managed user" do
       login_as_manager
@@ -14,6 +16,7 @@ describe "Managed User" do
       login_as_manager
       visit management_document_verifications_path
       fill_in "document_verification_document_number", with: user.document_number
+      fill_in "document_verification_phone_number", with: "5555555555"
       click_button "Check document"
 
       expect(page).to have_content "already verified"
@@ -32,6 +35,7 @@ describe "Managed User" do
       login_as_manager
       visit management_document_verifications_path
       fill_in "document_verification_document_number", with: user.document_number
+      fill_in "document_verification_phone_number", with: "5555555555"
       click_button "Check document"
 
       expect(page).to have_content "Vote proposals"
@@ -54,6 +58,7 @@ describe "Managed User" do
       login_as_manager
       visit management_document_verifications_path
       fill_in "document_verification_document_number", with: "12345678Z"
+      fill_in "document_verification_phone_number", with: "5555555555"
       click_button "Check document"
 
       within(".account-info") do
@@ -85,6 +90,7 @@ describe "Managed User" do
 
       visit management_document_verifications_path
       fill_in "document_verification_document_number", with: "12345678Z"
+      fill_in "document_verification_phone_number", with: "5555555555"
       click_button "Check document"
 
       expect(page).to have_content "Please introduce the email used on the account"
@@ -112,6 +118,7 @@ describe "Managed User" do
 
       visit management_document_verifications_path
       fill_in "document_verification_document_number", with: "12345678Z"
+      fill_in "document_verification_phone_number", with: "5555555555"
       click_button "Check document"
 
       expect(page).to have_content "Please introduce the email used on the account"
@@ -140,6 +147,7 @@ describe "Managed User" do
     login_as_manager
     visit management_document_verifications_path
     fill_in "document_verification_document_number", with: user.document_number
+    fill_in "document_verification_phone_number", with: "5555555555"
     click_button "Check document"
 
     expect(page).to have_content "already verified"

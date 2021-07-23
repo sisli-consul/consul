@@ -1,54 +1,39 @@
 require "rails_helper"
 
 describe "SMS Verification" do
-  scenario "Verify" do
-    user = create(:user, residence_verified_at: Time.current)
-    login_as(user)
+  let(:user) { create(:user, residence_verified_at: Time.current, sms_confirmation_code: "1234") }
+  let(:unverified) { create(:user) }
 
+  before { login_as user }
+
+  scenario "Verify" do
     visit new_sms_path
 
-    fill_in "sms_phone", with: "611111111"
     click_button "Send"
 
     expect(page).to have_content "Security code confirmation"
 
-    user = user.reload
-    fill_in "sms_confirmation_code", with: user.sms_confirmation_code
+    fill_in "sms_confirmation_code", with: "1234"
     click_button "Send"
 
     expect(page).to have_content "Code correct"
   end
 
-  scenario "Errors on phone number" do
-    user = create(:user, residence_verified_at: Time.current)
-    login_as(user)
-
-    visit new_sms_path
-
-    click_button "Send"
-
-    expect(page).to have_content error_message("phone")
-  end
-
   scenario "Errors on verification code" do
-    user = create(:user, residence_verified_at: Time.current)
-    login_as(user)
-
     visit new_sms_path
 
-    fill_in "sms_phone", with: "611111111"
     click_button "Send"
 
     expect(page).to have_content "Security code confirmation"
 
+    fill_in "sms_confirmation_code", with: "1235"
     click_button "Send"
 
     expect(page).to have_content "Incorrect confirmation code"
   end
 
   scenario "Deny access unless residency verified" do
-    user = create(:user)
-    login_as(user)
+    login_as(unverified)
 
     visit new_sms_path
 
@@ -57,14 +42,13 @@ describe "SMS Verification" do
   end
 
   scenario "5 tries allowed" do
-    user = create(:user, residence_verified_at: Time.current)
-    login_as(user)
-
     visit new_sms_path
 
     5.times do
-      fill_in "sms_phone", with: "611111111"
+      expect(page).to have_content "Send confirmation code"
       click_button "Send"
+
+      expect(page).to have_content "Security code confirmation"
       click_link "Click here to send it again"
     end
 

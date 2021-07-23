@@ -1,0 +1,8 @@
+tr:
+  activemodel:
+    attributes:
+      verification:
+        residence:
+          phone_number: "Telefon numarası"
+      verification/residence:
+        phone_number: "Telefon numarası"

@@ -2,8 +2,9 @@ FactoryBot.define do
   factory :local_census_record, class: "LocalCensusRecord" do
     sequence(:document_number) { |n| "DOC_NUMBER#{n}" }
     document_type { 1 }
-    date_of_birth { Date.new(1970, 1, 31) }
-    postal_code { "28002" }
+    phone_number { "5555555555" }
+    gender { "Erkek" }
+    neighborhood { "neighborhood" }
   end
   factory :local_census_records_import, class: "LocalCensusRecords::Import" do
     file do
@@ -18,12 +19,11 @@ FactoryBot.define do
     user
     document_number
     document_type    { "1" }
-    date_of_birth    { Time.zone.local(1980, 12, 31).to_date }
-    postal_code      { "28013" }
+    phone_number     { "5555555555" }
     terms_of_service { "1" }
 
     trait :invalid do
-      postal_code { "28001" }
+      phone_number { "6666666666" }
     end
   end
 
@@ -36,7 +36,6 @@ FactoryBot.define do
   end
 
   factory :verification_sms, class: "Verification::Sms" do
-    phone { "699999999" }
   end
 
   factory :verification_letter, class: "Verification::Letter" do
@@ -60,7 +59,6 @@ FactoryBot.define do
   factory :verification_document, class: "Verification::Management::Document" do
     document_number
     document_type { "1" }
-    date_of_birth { Date.new(1980, 12, 31) }
-    postal_code { "28013" }
+    phone_number { "5555555555" }
   end
 end

@@ -14,6 +14,7 @@ en:
           document_number: "Document number (including letters)"
           date_of_birth: "Date of birth"
           postal_code: "Postcode"
+          phone_number: "Phone number"
         sms:
           phone: "Telephone"
           confirmation_code: "Confirmation code"
@@ -30,6 +31,7 @@ en:
         date_of_birth: "Date of birth"
         document_type: "Document type"
         postal_code: "Postcode"
+        phone_number: "Phone number"
       verification/sms:
         confirmation_code: "Enter the code you received on your mobile"
       officing/residence:

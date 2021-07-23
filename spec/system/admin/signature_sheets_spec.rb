@@ -27,6 +27,8 @@ describe "Signature sheets", :admin do
   end
 
   context "Create" do
+    before { create(:geozone, :with_local_census_record) }
+
     scenario "Proposal" do
       proposal = create(:proposal)
       visit new_admin_signature_sheet_path
@@ -34,7 +36,8 @@ describe "Signature sheets", :admin do
       fill_in "signature_sheet_title", with: "definitive signature sheet"
       select "Citizen proposal", from: "signature_sheet_signable_type"
       fill_in "signature_sheet_signable_id", with: proposal.id
-      fill_in "signature_sheet_required_fields_to_verify", with: "12345678Z; 1234567L; 99999999Z"
+      fill_in "signature_sheet_required_fields_to_verify",
+              with: "12345678Z, 5555555555; 1234567L, 5555555555; 99999999Z, 5555555555"
       click_button "Create signature sheet"
 
       expect(page).to have_content "Signature sheet created successfully"
@@ -57,55 +60,14 @@ describe "Signature sheets", :admin do
       fill_in "signature_sheet_title", with: "definitive signature sheet"
       select "Investment", from: "signature_sheet_signable_type"
       fill_in "signature_sheet_signable_id", with: investment.id
-      fill_in "signature_sheet_required_fields_to_verify", with: "12345678Z; 1234567L; 99999999Z"
+      fill_in "signature_sheet_required_fields_to_verify",
+              with: "12345678Z, 5555555555; 1234567L, 5555555555; 99999999Z, 5555555555"
       click_button "Create signature sheet"
 
       expect(page).to have_content "Signature sheet created successfully"
       expect(page).to have_content "There is 1 valid signature"
       expect(page).to have_content "There is 1 vote created from the verified signatures"
       expect(page).to have_content "There are 2 invalid signatures"
-
-      visit budget_investment_path(budget, investment)
-
-      expect(page).to have_content "1 support"
-    end
-  end
-
-  context "Create throught all required_fields_to_verify of custom census api", :remote_census do
-    before do
-      mock_valid_remote_census_response
-      mock_invalid_signature_sheet_remote_census_response
-    end
-
-    scenario "Proposal" do
-      proposal = create(:proposal)
-      visit new_admin_signature_sheet_path
-
-      select "Citizen proposal", from: "signature_sheet_signable_type"
-      fill_in "signature_sheet_signable_id", with: proposal.id
-      fill_in "signature_sheet_required_fields_to_verify", with: "12345678Z, 31/12/1980, 28013; 99999999Z, 31/12/1980, 28013"
-      click_button "Create signature sheet"
-
-      expect(page).to have_content "Signature sheet created successfully"
-
-      visit proposal_path(proposal)
-
-      expect(page).to have_content "1 support"
-    end
-
-    scenario "Budget Investment" do
-      investment = create(:budget_investment)
-      budget = investment.budget
-      budget.update!(phase: "selecting")
-
-      visit new_admin_signature_sheet_path
-
-      select "Investment", from: "signature_sheet_signable_type"
-      fill_in "signature_sheet_signable_id", with: investment.id
-      fill_in "signature_sheet_required_fields_to_verify", with: "12345678Z, 31/12/1980, 28013; 99999999Z, 31/12/1980, 28013"
-      click_button "Create signature sheet"
-
-      expect(page).to have_content "Signature sheet created successfully"
 
       visit budget_investment_path(budget, investment)
 
@@ -122,24 +84,24 @@ describe "Signature sheets", :admin do
   end
 
   scenario "Show" do
+    create(:geozone, :with_local_census_record)
     proposal = create(:proposal)
     user = Administrator.first.user
     signature_sheet = create(:signature_sheet,
                              :with_title,
                              signable: proposal,
-                             required_fields_to_verify: "12345678Z; 123A; 123B",
                              author: user)
     signature_sheet.verify_signatures
 
     visit admin_signature_sheet_path(signature_sheet)
 
     expect(page).to have_content "Citizen proposal #{proposal.id}: #{signature_sheet.title}"
-    expect(page).to have_content "12345678Z; 123A; 123B"
+    expect(page).to have_content "12345678Z, 5555555555; 12345678X, 6666666666"
     expect(page).to have_content signature_sheet.created_at.strftime("%B %d, %Y %H:%M")
     expect(page).to have_content user.name
 
     within("#signature_count") do
-      expect(page).to have_content 3
+      expect(page).to have_content 2
     end
 
     within("#verified_signatures") do
@@ -147,7 +109,7 @@ describe "Signature sheets", :admin do
     end
 
     within("#unverified_signatures") do
-      expect(page).to have_content 2
+      expect(page).to have_content 1
     end
   end
 end

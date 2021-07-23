@@ -3,16 +3,15 @@ class Verification::SmsController < ApplicationController
   before_action :verify_resident!
   before_action :verify_verified!
   before_action :verify_lock, only: [:new, :create]
-  before_action :set_phone, only: :create
 
   skip_authorization_check
 
   def new
-    @sms = Verification::Sms.new(phone: params[:phone])
+    @sms = Verification::Sms.new(user: current_user)
   end
 
   def create
-    @sms = Verification::Sms.new(phone: @phone, user: current_user)
+    @sms = Verification::Sms.new(user: current_user)
     if @sms.save
       redirect_to edit_sms_path, notice: t("verification.sms.create.flash.success")
     else
@@ -27,12 +26,8 @@ class Verification::SmsController < ApplicationController
   def update
     @sms = Verification::Sms.new(sms_params.merge(user: current_user))
     if @sms.verified?
-      current_user.update!(confirmed_phone: current_user.unconfirmed_phone)
+      current_user.update!(confirmed_phone: current_user.unconfirmed_phone, verified_at: Time.current)
       ahoy.track(:level_2_user, user_id: current_user.id) rescue nil
-
-      if VerifiedUser.phone?(current_user)
-        current_user.update(verified_at: Time.current)
-      end
 
       redirect_to_next_path
     else
@@ -44,21 +39,7 @@ class Verification::SmsController < ApplicationController
   private
 
     def sms_params
-      params.require(:sms).permit(:phone, :confirmation_code)
-    end
-
-    def set_phone
-      if verified_user
-        @phone = @verified_user.phone
-      else
-        @phone = sms_params[:phone]
-      end
-    end
-
-    def verified_user
-      return false unless params[:verified_user]
-
-      @verified_user = VerifiedUser.by_user(current_user).find_by(id: params[:verified_user][:id])
+      params.require(:sms).permit(:confirmation_code)
     end
 
     def redirect_to_next_path
@@ -66,7 +47,7 @@ class Verification::SmsController < ApplicationController
       if current_user.level_three_verified?
         redirect_to account_path, notice: t("verification.sms.update.flash.level_three.success")
       else
-        redirect_to new_letter_path, notice: t("verification.sms.update.flash.level_two.success")
+        redirect_to verified_user_path, notice: t("verification.residence.create.flash.success")
       end
     end
 end

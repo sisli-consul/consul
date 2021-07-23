@@ -3,6 +3,8 @@ require "rails_helper"
 describe "Residence", :with_frozen_time do
   let(:officer) { create(:poll_officer) }
 
+  before { create(:geozone, :with_local_census_record) }
+
   describe "Officers without assignments" do
     scenario "Can not access residence verification" do
       login_as(officer.user)
@@ -33,7 +35,7 @@ describe "Residence", :with_frozen_time do
 
       select "DNI", from: "residence_document_type"
       fill_in "residence_document_number", with: "12345678Z"
-      fill_in "residence_year_of_birth", with: "1980"
+      fill_in "residence_phone_number", with: "5555555555"
 
       click_button "Validate document"
 
@@ -60,7 +62,7 @@ describe "Residence", :with_frozen_time do
 
       select "DNI", from: "residence_document_type"
       fill_in "residence_document_number", with: "9999999A"
-      fill_in "residence_year_of_birth", with: "1980"
+      fill_in "residence_phone_number", with: "5555555555"
 
       click_button "Validate document"
 
@@ -74,14 +76,14 @@ describe "Residence", :with_frozen_time do
       expect(officer.failed_census_calls_count).to eq(initial_failed_census_calls_count + 1)
     end
 
-    scenario "Error on Census (year of birth)" do
+    scenario "Error on Census (phone number)" do
       within("#side_menu") do
         click_link "Validate document"
       end
 
       select "DNI", from: "residence_document_type"
       fill_in "residence_document_number", with: "12345678Z"
-      fill_in "residence_year_of_birth", with: "1981"
+      fill_in "residence_phone_number", with: "6666666666"
 
       click_button "Validate document"
 
@@ -109,65 +111,5 @@ describe "Residence", :with_frozen_time do
     click_button "Confirm vote"
 
     expect(page).to have_content "Vote introduced!"
-  end
-
-  context "With remote census configuration", :remote_census do
-    before do
-      create(:poll_officer_assignment, officer: officer)
-    end
-
-    describe "Display form fields according to the remote census configuration" do
-      scenario "by default (without custom census) not display date_of_birth and postal_code" do
-        Setting["feature.remote_census"] = false
-
-        login_through_form_as_officer(officer.user)
-        visit officing_root_path
-
-        within("#side_menu") do
-          click_link "Validate document"
-        end
-
-        expect(page).to have_css("#residence_document_type")
-        expect(page).to have_css("#residence_document_number")
-        expect(page).to have_css("#residence_year_of_birth")
-        expect(page).not_to have_content("Date of birth")
-        expect(page).not_to have_css("#residence_postal_code")
-      end
-
-      scenario "with all custom census not display year_of_birth" do
-        login_through_form_as_officer(officer.user)
-        visit officing_root_path
-
-        within("#side_menu") do
-          click_link "Validate document"
-        end
-
-        expect(page).to have_css("#residence_document_type")
-        expect(page).to have_css("#residence_document_number")
-        expect(page).to have_content("Date of birth")
-        expect(page).to have_css("#residence_postal_code")
-        expect(page).not_to have_css("#residence_year_of_birth")
-      end
-    end
-
-    scenario "can verify voter with date_of_birth and postal_code fields" do
-      mock_valid_remote_census_response
-
-      login_through_form_as_officer(officer.user)
-      visit officing_root_path
-
-      within("#side_menu") do
-        click_link "Validate document"
-      end
-
-      select "DNI", from: "residence_document_type"
-      fill_in "residence_document_number", with: "12345678Z"
-      select_date "31-December-1980", from: "residence_date_of_birth"
-      fill_in "residence_postal_code", with: "28013"
-
-      click_button "Validate document"
-
-      expect(page).to have_content "Document verified with Census"
-    end
   end
 end

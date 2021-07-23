@@ -12,6 +12,7 @@ describe "BudgetPolls", :with_frozen_time do
   before do
     create(:poll_shift, officer: officer, booth: booth, date: Date.current, task: :vote_collection)
     create(:poll_officer_assignment, officer: officer, poll: poll, booth: booth, date: Date.current)
+    create(:geozone, :with_local_census_record)
   end
 
   context "Offline" do

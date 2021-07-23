@@ -1,12 +1,15 @@
 require "rails_helper"
 
 describe "DocumentVerifications" do
+  before { create :geozone, :with_local_census_record }
+
   scenario "Verifying a level 3 user shows an 'already verified' page" do
     user = create(:user, :level_three)
 
     login_as_manager
     visit management_document_verifications_path
     fill_in "document_verification_document_number", with: user.document_number
+    fill_in "document_verification_phone_number", with: "5555555555"
     click_button "Check document"
 
     expect(page).to have_content "already verified"
@@ -18,6 +21,7 @@ describe "DocumentVerifications" do
     login_as_manager
     visit management_document_verifications_path
     fill_in "document_verification_document_number", with: user.document_number
+    fill_in "document_verification_phone_number", with: "5555555555"
     click_button "Check document"
 
     expect(page).to have_content "Vote proposals"
@@ -38,6 +42,7 @@ describe "DocumentVerifications" do
         login_as_manager
         visit management_document_verifications_path
         fill_in "document_verification_document_number", with: "inexisting"
+        fill_in "document_verification_phone_number", with: "5555555555"
         click_button "Check document"
 
         expect(page).to have_content "This document is not registered"
@@ -47,6 +52,7 @@ describe "DocumentVerifications" do
         login_as_manager
         visit management_document_verifications_path
         fill_in "document_verification_document_number", with: "12345678Z"
+        fill_in "document_verification_phone_number", with: "5555555555"
         click_button "Check document"
 
         expect(page).to have_content "Please introduce the email used on the account"
@@ -61,25 +67,10 @@ describe "DocumentVerifications" do
         login_as_manager
         visit management_document_verifications_path
         fill_in "document_verification_document_number", with: "12345678Z"
-        select_date "31-December-1980", from: "document_verification_date_of_birth"
-        fill_in "document_verification_postal_code", with: "inexisting"
+        fill_in "document_verification_phone_number", with: "5555555555"
         click_button "Check document"
 
         expect(page).to have_content "This document is not registered"
-      end
-
-      scenario "Verifying a user which does exists in the census but not in the db
-                redirects allows sending an email" do
-        mock_valid_remote_census_response
-
-        login_as_manager
-        visit management_document_verifications_path
-        fill_in "document_verification_document_number", with: "12345678Z"
-        select_date "31-December-1980", from: "document_verification_date_of_birth"
-        fill_in "document_verification_postal_code", with: "28013"
-        click_button "Check document"
-
-        expect(page).to have_content "Please introduce the email used on the account"
       end
     end
   end
@@ -88,19 +79,9 @@ describe "DocumentVerifications" do
     login_as_manager
     visit management_document_verifications_path
     fill_in "document_verification_document_number", with: "12345 - h"
+    fill_in "document_verification_phone_number", with: "5555555555"
     click_button "Check document"
 
     expect(page).to have_content "Document number: 12345H"
-  end
-
-  scenario "User age is checked" do
-    expect_any_instance_of(Verification::Management::Document).to receive(:under_age?).and_return(true)
-
-    login_as_manager
-    visit management_document_verifications_path
-    fill_in "document_verification_document_number", with: "12345678Z"
-    click_button "Check document"
-
-    expect(page).to have_content "You don't have the required age to verify your account."
   end
 end

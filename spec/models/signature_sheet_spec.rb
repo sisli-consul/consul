@@ -93,16 +93,14 @@ describe SignatureSheet do
 
   describe "#verify_signatures" do
     it "creates signatures for each document number" do
-      signature_sheet = create(:signature_sheet, required_fields_to_verify: "123A; 456B")
+      signature_sheet = create(:signature_sheet)
       signature_sheet.verify_signatures
 
       expect(Signature.count).to eq(2)
-      expect(Signature.first.document_number).to eq("123A")
-      expect(Signature.first.date_of_birth).to eq(nil)
-      expect(Signature.first.postal_code).to eq(nil)
-      expect(Signature.last.document_number).to eq("456B")
-      expect(Signature.last.date_of_birth).to eq(nil)
-      expect(Signature.last.postal_code).to eq(nil)
+      expect(Signature.first.document_number).to eq("12345678Z")
+      expect(Signature.first.phone_number).to eq("5555555555")
+      expect(Signature.last.document_number).to eq("12345678X")
+      expect(Signature.last.phone_number).to eq("6666666666")
     end
 
     it "marks signature sheet as processed" do
@@ -110,79 +108,6 @@ describe SignatureSheet do
       signature_sheet.verify_signatures
 
       expect(signature_sheet.processed).to eq(true)
-    end
-
-    context "with remote census active", :remote_census do
-      it "creates signatures for each group with document_number" do
-        Setting["remote_census.request.date_of_birth"] = nil
-        Setting["remote_census.request.postal_code"] = nil
-
-        required_fields_to_verify = "123A; 456B"
-        signature_sheet = create(:signature_sheet, required_fields_to_verify: required_fields_to_verify)
-
-        %w[123A 456B].each { mock_valid_remote_census_response }
-        signature_sheet.verify_signatures
-
-        expect(Signature.count).to eq(2)
-        expect(Signature.first.document_number).to eq("123A")
-        expect(Signature.first.date_of_birth).to eq(nil)
-        expect(Signature.first.postal_code).to eq(nil)
-        expect(Signature.last.document_number).to eq("456B")
-        expect(Signature.last.date_of_birth).to eq(nil)
-        expect(Signature.last.postal_code).to eq(nil)
-      end
-
-      it "creates signatures for each group with document_number and date_of_birth" do
-        Setting["remote_census.request.postal_code"] = nil
-
-        required_fields_to_verify = "123A, 01/01/1980; 456B, 01/02/1980"
-        signature_sheet = create(:signature_sheet, required_fields_to_verify: required_fields_to_verify)
-
-        %w[123A 456B].each { mock_valid_remote_census_response }
-        signature_sheet.verify_signatures
-
-        expect(Signature.count).to eq(2)
-        expect(Signature.first.document_number).to eq("123A")
-        expect(Signature.first.date_of_birth).to eq(Date.parse("01/01/1980"))
-        expect(Signature.first.postal_code).to eq(nil)
-        expect(Signature.last.document_number).to eq("456B")
-        expect(Signature.last.date_of_birth).to eq(Date.parse("01/02/1980"))
-        expect(Signature.last.postal_code).to eq(nil)
-      end
-
-      it "creates signatures for each group with document_number and postal_code" do
-        Setting["remote_census.request.date_of_birth"] = nil
-
-        required_fields_to_verify = "123A, 28001; 456B, 28002"
-        signature_sheet = create(:signature_sheet, required_fields_to_verify: required_fields_to_verify)
-
-        %w[123A 456B].each { mock_valid_remote_census_response }
-        signature_sheet.verify_signatures
-
-        expect(Signature.count).to eq(2)
-        expect(Signature.first.document_number).to eq("123A")
-        expect(Signature.first.date_of_birth).to eq(nil)
-        expect(Signature.first.postal_code).to eq("28001")
-        expect(Signature.last.document_number).to eq("456B")
-        expect(Signature.last.date_of_birth).to eq(nil)
-        expect(Signature.last.postal_code).to eq("28002")
-      end
-
-      it "creates signatures for each group with document_number, postal_code and date_of_birth" do
-        required_fields_to_verify = "123A, 01/01/1980, 28001; 456B, 01/02/1980, 28002"
-        signature_sheet = create(:signature_sheet, required_fields_to_verify: required_fields_to_verify)
-
-        %w[123A 456B].each { mock_valid_remote_census_response }
-        signature_sheet.verify_signatures
-
-        expect(Signature.count).to eq(2)
-        expect(Signature.first.document_number).to eq("123A")
-        expect(Signature.first.date_of_birth).to eq(Date.parse("01/01/1980"))
-        expect(Signature.first.postal_code).to eq("28001")
-        expect(Signature.last.document_number).to eq("456B")
-        expect(Signature.last.date_of_birth).to eq(Date.parse("01/02/1980"))
-        expect(Signature.last.postal_code).to eq("28002")
-      end
     end
   end
 

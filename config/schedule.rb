@@ -40,6 +40,14 @@ every 1.day, at: "3:00 am", roles: [:cron] do
   rake "votes:reset_hot_score"
 end
 
+every 1.day, at: "0:00 am", roles: [:cron] do
+  rake "local_census:update"
+end if @environment == "production"
+
+every 1.day, at: "2:00 am", roles: [:cron] do
+  rake "users:update_verified"
+end if @environment == "production"
+
 every :reboot do
   command "cd #{@path} && bundle exec puma -C config/puma/#{@environment}.rb"
   # Number of workers must be kept in sync with capistrano's delayed_job_workers

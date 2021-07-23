@@ -1,0 +1,5 @@
+tr:
+  verification:
+    sms:
+      new:
+        phone_note: "Güvenliğiniz için sistemde kayıtlı cep telefonunuza doğrulama kodu göndereceğiz."

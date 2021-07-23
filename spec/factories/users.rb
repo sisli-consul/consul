@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :user do
+    sequence(:name)     { |n| "Manuela#{n}" }
     sequence(:username) { |n| "Manuela#{n}" }
     sequence(:email)    { |n| "manuela#{n}@consul.dev" }
 
@@ -17,8 +18,10 @@ FactoryBot.define do
 
     trait :level_two do
       residence_verified_at { Time.current }
+      level_two_verified_at { Time.current }
       unconfirmed_phone { "611111111" }
       confirmed_phone { "611111111" }
+      phone_number { "611111111" }
       sms_confirmation_code { "1234" }
       document_type { "1" }
       document_number

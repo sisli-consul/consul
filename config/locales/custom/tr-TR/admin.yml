@@ -1,0 +1,7 @@
+tr:
+  admin:
+    local_census_records:
+      index:
+        phone_number: "Telefon numarası"
+        gender: "Cinsiyet"
+        neighborhood: "Mahalle"

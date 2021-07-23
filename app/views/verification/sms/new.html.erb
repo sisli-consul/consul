@@ -23,16 +23,7 @@
     <h1><%= t("verification.sms.new.title") %></h1>
 
     <%= form_for @sms, as: "sms", url: sms_path do |f| %>
-      <%= render "shared/errors", resource: @sms %>
-
-      <div class="small-12 medium-6">
-        <%= f.label :phone, t("verification.sms.new.phone"), class: "inline-block" %>
-        <span class="inline-block"><%= sanitize(t("verification.sms.new.phone_format")) %></span>
-        <p class="help-text" id="phone-text-help"><%= t("verification.sms.new.phone_note") %></p>
-        <%= f.text_field :phone, label: false,
-                                 placeholder: t("verification.sms.new.phone_placeholder"),
-                                 aria: { describedby: "phone-help-text" } %>
-      </div>
+      <p class="help-text"><%= t("verification.sms.new.phone_note") %></p>
 
       <%= f.submit t("verification.sms.new.submit_button"), class: "button success" %>
     <% end %>

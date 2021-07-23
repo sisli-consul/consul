@@ -533,6 +533,8 @@ describe "Polls" do
     let(:booth) { create(:poll_booth) }
     let(:officer) { create(:poll_officer) }
 
+    before { create(:geozone, :with_local_census_record) }
+
     scenario "Already voted on booth cannot vote on website" do
       create(:poll_shift, officer: officer, booth: booth, date: Date.current, task: :vote_collection)
       create(:poll_officer_assignment, officer: officer, poll: poll, booth: booth, date: Date.current)

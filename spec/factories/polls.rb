@@ -205,12 +205,11 @@ FactoryBot.define do
   factory :officing_residence, class: "Officing::Residence" do
     user
     association :officer, factory: :poll_officer
-    document_number
-    document_type    { "1" }
-    year_of_birth    { "1980" }
+    document_type { "1" }
+    phone_number { "5555555555" }
 
     trait :invalid do
-      year_of_birth { Time.current.year }
+      phone_number { "6666666666" }
     end
   end
 
