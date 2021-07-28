@@ -7,3 +7,7 @@ tr:
       sisli_kent_konseyi_link: "https://www.sislikentkonseyi.org"
       benim_butcem: "Benim Butcem"
       benim_butcem_link: "http://www.benimbutcem.com"
+  polls:
+    index:
+      section_header:
+        description: "Görüşlerinizi belirtin katılımcı demokrasiyi güçlendirin."
