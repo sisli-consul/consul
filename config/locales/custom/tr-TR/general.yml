@@ -8,8 +8,10 @@ tr:
       benim_butcem: "Benim Butcem"
       benim_butcem_link: "http://www.benimbutcem.com"
   polls:
+    dates: "%{open_at} / %{closed_at}"
     index:
       section_header:
         description: "Görüşlerinizi belirtin katılımcı demokrasiyi güçlendirin."
+      remaining: "Oylama <strong>%{days}</strong> sonra bitecektir."
     show:
       verify_link: "hesabınızı doğrulamanız"
