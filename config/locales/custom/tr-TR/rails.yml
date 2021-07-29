@@ -1,0 +1,8 @@
+tr:
+  date:
+    formats:
+      default: "%d.%m.%Y"
+  datetime:
+    distance_in_words:
+      x_days:
+        other: "%{count} gün"

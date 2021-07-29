@@ -3,3 +3,11 @@ tr:
     sms:
       new:
         phone_note: "Güvenliğiniz için sistemde kayıtlı cep telefonunuza doğrulama kodu göndereceğiz."
+      api_message: "%{url} için onay kodunuz: %{code}"
+    residence:
+      new:
+        phone_number_help_text: "Lütfen90 5xx xxx xx xx şeklinde yazın"
+        error_verifying_census: "Bilgileriniz sistemimizde doğrulanamadı. Lütfen, bilgilerinizi Komşu Masa'yı (444 31 12) arayarak teyid edin."
+        accept_terms_text: "%{terms_url}'nı kabul ediyorum"
+        accept_terms_text_title: "Erişim şartları ve koşulları'nı kabul ediyorum"
+        terms: "Erişim şartları ve koşulları"
