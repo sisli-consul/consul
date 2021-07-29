@@ -11,3 +11,5 @@ tr:
     index:
       section_header:
         description: "Görüşlerinizi belirtin katılımcı demokrasiyi güçlendirin."
+    show:
+      verify_link: "hesabınızı doğrulamanız"
