@@ -218,6 +218,7 @@ ignore_unused:
 # - "simple_form.{error_notification,required}.:"
   - verification.letter.create.flash.offices_url
   - verification.letter.new.offices_url
+  - "verification.sms.api_message"
   - votes.budget_investments.different_heading_assigned*
   - layouts.header.open_city_title
   - admin.stats.polls.current
