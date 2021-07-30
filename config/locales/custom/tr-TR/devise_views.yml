@@ -1,0 +1,5 @@
+tr:
+  devise_views:
+    shared:
+      sign_in: "Oturum aç"
+      sign_up: "Kaydol"
