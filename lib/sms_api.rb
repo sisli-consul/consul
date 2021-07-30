@@ -33,7 +33,7 @@ class SMSApi
                  <Originator>#{Rails.application.secrets.sms_originator}</Originator>
                  <SendDate></SendDate>
                  <ValidityPeriod>300</ValidityPeriod>
-                 <MessageText>#{t("verification.api_message", url: Setting["url"], code: code)}</MessageText>
+                 <MessageText>#{I18n.t("verification.sms.api_message", url: Setting["url"], code: code)}</MessageText>
                  <IsCheckBlackList>0</IsCheckBlackList>
                  <ReceiverList>
                    <Receiver>#{phone}</Receiver>

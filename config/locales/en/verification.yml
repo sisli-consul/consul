@@ -77,6 +77,7 @@ en:
         flash:
           level_three:
             success: Code correct. Your account is now verified
+      api_message: "%{url} verification code: %{code}"
     step_1: Residence
     step_2: Confirmation code
     step_3: Final verification

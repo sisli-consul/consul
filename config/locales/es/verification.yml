@@ -85,6 +85,7 @@ es:
             success: Código correcto. Tu cuenta ya está verificada
           level_two:
             success: Código correcto
+      api_message: "%{url} código de verificación: %{code}"
     step_1: Residencia
     step_2: SMS de confirmación
     step_3: Verificación final
