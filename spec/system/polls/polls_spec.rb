@@ -42,8 +42,8 @@ describe "Polls" do
       visit polls_path
 
       expect(page).to have_content(poll.name)
-      expect(page).to have_content("Question 1 #{question1.title}")
-      expect(page).to have_content("Question 2 #{question2.title}")
+      expect(page).to have_content("#{question1.title}")
+      expect(page).to have_content("#{question2.title}")
     end
 
     scenario "Polls display remaining days to participate if not expired" do
@@ -208,14 +208,15 @@ describe "Polls" do
       expect(page).to have_content(poll.name)
       expect(page).to have_content(poll.summary)
 
-      expect(page).to have_content("Question 1 #{proposal_question.title}", normalize_ws: true)
-      expect(page).to have_content("Question 2 #{normal_question.title}", normalize_ws: true)
+      expect(page).to have_content("#{proposal_question.title}", normalize_ws: true)
+      expect(page).to have_content("#{normal_question.title}", normalize_ws: true)
 
       find("#poll_description_more_info").click
       expect(page).to have_content(poll.description)
     end
 
     scenario "Do not show question number in polls with one question" do
+      skip "Question number hidden on polls"
       question = create(:poll_question, poll: poll)
 
       visit poll_path(poll)
