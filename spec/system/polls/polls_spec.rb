@@ -42,8 +42,8 @@ describe "Polls" do
       visit polls_path
 
       expect(page).to have_content(poll.name)
-      expect(page).to have_content("Question 1 #{question1.title}")
-      expect(page).to have_content("Question 2 #{question2.title}")
+      expect(page).to have_content("#{question1.title}")
+      expect(page).to have_content("#{question2.title}")
     end
 
     scenario "Polls display remaining days to participate if not expired" do
@@ -208,20 +208,48 @@ describe "Polls" do
       expect(page).to have_content(poll.name)
       expect(page).to have_content(poll.summary)
 
-      expect(page).to have_content("Question 1 #{proposal_question.title}", normalize_ws: true)
-      expect(page).to have_content("Question 2 #{normal_question.title}", normalize_ws: true)
+      expect(page).to have_content("#{proposal_question.title}", normalize_ws: true)
+      expect(page).to have_content("#{normal_question.title}", normalize_ws: true)
 
       find("#poll_description_more_info").click
       expect(page).to have_content(poll.description)
     end
 
     scenario "Do not show question number in polls with one question" do
+      skip "Question number hidden on polls"
       question = create(:poll_question, poll: poll)
 
       visit poll_path(poll)
 
       expect(page).to have_content question.title
       expect(page).not_to have_content("Question 1")
+    end
+
+    scenario "Question appear by created at order" do
+      question = create(:poll_question, poll: poll, title: "First question")
+      create(:poll_question, poll: poll, title: "Second question")
+      question_3 = create(:poll_question, poll: poll, title: "Third question")
+
+      visit polls_path
+      expect("First question").to appear_before("Second question")
+      expect("Second question").to appear_before("Third question")
+
+      visit poll_path(poll)
+
+      expect("First question").to appear_before("Second question")
+      expect("Second question").to appear_before("Third question")
+
+      question_3.update!(title: "Third question edited")
+      question.update!(title: "First question edited")
+
+      visit polls_path
+      expect("First question edited").to appear_before("Second question")
+      expect("Second question").to appear_before("Third question edited")
+
+      visit poll_path(poll)
+
+      expect("First question edited").to appear_before("Second question")
+      expect("Second question").to appear_before("Third question edited")
     end
 
     scenario "Question answers appear in the given order" do
