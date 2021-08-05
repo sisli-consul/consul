@@ -31,8 +31,7 @@ FactoryBot.define do
     user
     document_number
     document_type { 1 }
-    date_of_birth { Date.new(1900, 1, 1) }
-    postal_code { "28000" }
+    phone_number { "6666666666" }
   end
 
   factory :verification_sms, class: "Verification::Sms" do
