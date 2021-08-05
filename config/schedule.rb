@@ -40,11 +40,11 @@ every 1.day, at: "3:00 am", roles: [:cron] do
   rake "votes:reset_hot_score"
 end
 
-every 1.day, at: "0:00 am", roles: [:cron] do
+every 2.hours, roles: [:cron] do
   rake "local_census:update"
 end if @environment == "production"
 
-every 1.day, at: "2:00 am", roles: [:cron] do
+every 1.day, at: "01:00 am", roles: [:cron] do
   rake "users:update_verified"
 end if @environment == "production"
 
