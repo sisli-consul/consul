@@ -116,7 +116,7 @@ FactoryBot.define do
   factory :signature_sheet do
     association :signable, factory: :proposal
     association :author, factory: :user
-    required_fields_to_verify { "12345678Z, 5555555555; 12345678X, 6666666666" }
+    required_fields_to_verify { "12345678Z, 905555555555; 12345678X, 906666666666" }
 
     trait :with_title do
       title { Faker::Lorem.sentence }
@@ -126,7 +126,7 @@ FactoryBot.define do
   factory :signature do
     signature_sheet
     sequence(:document_number) { |n| "#{n}A" }
-    phone_number { "5555555555" }
+    phone_number { "905555555555" }
   end
 
   factory :activity do

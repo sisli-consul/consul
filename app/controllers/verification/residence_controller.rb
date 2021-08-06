@@ -13,6 +13,7 @@ class Verification::ResidenceController < ApplicationController
     if @residence.save
       redirect_to verified_user_path, notice: t("verification.residence.create.flash.success")
     else
+      @residence.phone_number = @residence.phone_number.last(9)
       render :new
     end
   end

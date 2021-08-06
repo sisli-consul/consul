@@ -10,7 +10,7 @@ module Verifications
   def verify_residence
     select "DNI", from: "residence_document_type"
     fill_in "residence_document_number", with: "12345678Z"
-    fill_in "residence_phone_number", with: "5555555555"
+    fill_in "residence_phone_number", with: "555555555"
     check "residence_terms_of_service"
 
     click_button "new_residence_submit"
@@ -20,7 +20,7 @@ module Verifications
   def officing_verify_residence
     select "DNI", from: "residence_document_type"
     fill_in "residence_document_number", with: "12345678Z"
-    fill_in "residence_phone_number", with: "5555555555"
+    fill_in "residence_phone_number", with: "905555555555"
 
     click_button "Validate document"
 

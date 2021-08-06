@@ -60,7 +60,7 @@ describe Verification::Residence do
       user.reload
       expect(user.document_number).to eq("12345678Z")
       expect(user.document_type).to eq("1")
-      expect(user.unconfirmed_phone).to eq("5555555555")
+      expect(user.unconfirmed_phone).to eq("905555555555")
       expect(user.gender).to eq("male")
       expect(user.geozone).to eq(Geozone.first)
     end
@@ -68,7 +68,7 @@ describe Verification::Residence do
 
   describe "tries" do
     it "increases tries after a call to the Census" do
-      residence.phone_number = "6666666666"
+      residence.phone_number = "906666666666"
       residence.valid?
       expect(residence.user.lock.tries).to eq(1)
     end
@@ -90,7 +90,7 @@ describe Verification::Residence do
         user_id:         residence.user.id,
         document_number: "12345678Z",
         document_type:   "1",
-        phone_number:    "6666666666"
+        phone_number:    "906666666666"
       )
     end
   end

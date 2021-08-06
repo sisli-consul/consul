@@ -206,10 +206,10 @@ FactoryBot.define do
     user
     association :officer, factory: :poll_officer
     document_type { "1" }
-    phone_number { "5555555555" }
+    phone_number { "905555555555" }
 
     trait :invalid do
-      phone_number { "6666666666" }
+      phone_number { "906666666666" }
     end
   end
 
