@@ -35,13 +35,13 @@ describe LocalCensusRecord do
     end
 
     it "sanitizes text attributes values before validation" do
-      local_census_record.document_type = " DNI "
+      local_census_record.document_type = " TC Kimlik No "
       local_census_record.document_number = " #DOCUMENT_NUMBER "
       local_census_record.phone_number = " 905555555555 "
 
       local_census_record.valid?
 
-      expect(local_census_record.document_type).to eq "DNI"
+      expect(local_census_record.document_type).to eq "TC Kimlik No"
       expect(local_census_record.document_number).to eq "#DOCUMENT_NUMBER"
       expect(local_census_record.phone_number).to eq "905555555555"
     end

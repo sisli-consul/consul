@@ -53,7 +53,7 @@ tr:
         document_type:
           passport: Pasaport
           residence_card: İkamet belgesi
-          spanish_id: DNI
+          spanish_id: "TC Kimlik No"
         error_not_allowed_age: Katılmak için gereken yaşta değilsiniz
         error_not_allowed_postal_code: Doğrulanmak için kaydolmalısınız.
         error_verifying_census: Pusula, bilgilerinizi doğrulayamadı. Lütfen, sayım bilgilerinizin doğru olduğunu Belediye Meclisini arayarak ya da bir Vatandaş Destek Ofisini ziyaret ederek onaylayın.

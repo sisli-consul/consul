@@ -564,7 +564,7 @@ en:
         local_census_record:
           attributes:
             document_type:
-              inclusion: is not included in the list, allowed values are 1 for DNI, 2 for passport and 3 for residence card.
+              inclusion: is not included in the list, allowed values are 1 for TC Kimlik No, 2 for passport and 3 for residence card.
         proposal:
           attributes:
             tag_list:
