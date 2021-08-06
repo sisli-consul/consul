@@ -16,7 +16,7 @@
     </div>
 
     <div class="small-12 medium-5">
-      <%= f.number_field :phone_number %>
+      <%= f.number_field :phone_number, hint: t("verification.residence.new.phone_number_help_text") %>
     </div>
 
     <%= f.submit t("management.check"), class: "button" %>
