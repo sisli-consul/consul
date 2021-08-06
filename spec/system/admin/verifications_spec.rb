@@ -38,7 +38,7 @@ describe "Incomplete verifications", :admin do
     visit admin_verifications_path
 
     within "#user_#{incompletely_verified_user.id}" do
-      expect(page).to have_content "DNI"
+      expect(page).to have_content "TC Kimlik No"
       expect(page).to have_content failed_census_call.document_number
       expect(page).to have_content "906666666666"
     end

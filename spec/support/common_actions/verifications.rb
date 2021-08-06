@@ -8,7 +8,7 @@ module Verifications
   end
 
   def verify_residence
-    select "DNI", from: "residence_document_type"
+    select "TC Kimlik No", from: "residence_document_type"
     fill_in "residence_document_number", with: "12345678Z"
     fill_in "residence_phone_number", with: "555555555"
     check "residence_terms_of_service"
@@ -18,7 +18,7 @@ module Verifications
   end
 
   def officing_verify_residence
-    select "DNI", from: "residence_document_type"
+    select "TC Kimlik No", from: "residence_document_type"
     fill_in "residence_document_number", with: "12345678Z"
     fill_in "residence_phone_number", with: "905555555555"
 

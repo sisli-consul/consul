@@ -35,7 +35,14 @@ describe "Level two verification" do
       login_as(user)
 
       visit verification_path(locale: :es)
-      verify_residence
+
+      select "DNI", from: "residence_document_type"
+      fill_in "residence_document_number", with: "12345678Z"
+      fill_in "residence_phone_number", with: "555555555"
+      check "residence_terms_of_service"
+
+      click_button "new_residence_submit"
+      expect(page).to have_content I18n.t("verification.residence.create.flash.success")
     end
   end
 end
