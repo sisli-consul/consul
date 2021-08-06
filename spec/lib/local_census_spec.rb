@@ -8,9 +8,9 @@ describe LocalCensus do
       allow_any_instance_of(LocalCensus::Response).to receive(:valid?).and_return true
       expect(LocalCensusRecord).to receive(:find_by).with(document_type: 1,
                                                           document_number: "12345678Z",
-                                                          phone_number: "5555555555")
+                                                          phone_number: "905555555555")
 
-      expect(api.call(1, "12345678Z", "5555555555")).to be_valid
+      expect(api.call(1, "12345678Z", "905555555555")).to be_valid
     end
   end
 end

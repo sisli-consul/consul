@@ -37,7 +37,7 @@ describe "Signature sheets", :admin do
       select "Citizen proposal", from: "signature_sheet_signable_type"
       fill_in "signature_sheet_signable_id", with: proposal.id
       fill_in "signature_sheet_required_fields_to_verify",
-              with: "12345678Z, 5555555555; 1234567L, 5555555555; 99999999Z, 5555555555"
+              with: "12345678Z, 905555555555; 1234567L, 905555555555; 99999999Z, 905555555555"
       click_button "Create signature sheet"
 
       expect(page).to have_content "Signature sheet created successfully"
@@ -61,7 +61,7 @@ describe "Signature sheets", :admin do
       select "Investment", from: "signature_sheet_signable_type"
       fill_in "signature_sheet_signable_id", with: investment.id
       fill_in "signature_sheet_required_fields_to_verify",
-              with: "12345678Z, 5555555555; 1234567L, 5555555555; 99999999Z, 5555555555"
+              with: "12345678Z, 905555555555; 1234567L, 905555555555; 99999999Z, 905555555555"
       click_button "Create signature sheet"
 
       expect(page).to have_content "Signature sheet created successfully"
@@ -96,7 +96,7 @@ describe "Signature sheets", :admin do
     visit admin_signature_sheet_path(signature_sheet)
 
     expect(page).to have_content "Citizen proposal #{proposal.id}: #{signature_sheet.title}"
-    expect(page).to have_content "12345678Z, 5555555555; 12345678X, 6666666666"
+    expect(page).to have_content "12345678Z, 905555555555; 12345678X, 906666666666"
     expect(page).to have_content signature_sheet.created_at.strftime("%B %d, %Y %H:%M")
     expect(page).to have_content user.name
 

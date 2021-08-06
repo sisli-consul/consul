@@ -98,9 +98,9 @@ describe SignatureSheet do
 
       expect(Signature.count).to eq(2)
       expect(Signature.first.document_number).to eq("12345678Z")
-      expect(Signature.first.phone_number).to eq("5555555555")
+      expect(Signature.first.phone_number).to eq("905555555555")
       expect(Signature.last.document_number).to eq("12345678X")
-      expect(Signature.last.phone_number).to eq("6666666666")
+      expect(Signature.last.phone_number).to eq("906666666666")
     end
 
     it "marks signature sheet as processed" do

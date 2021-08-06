@@ -10,7 +10,7 @@ describe "EmailVerifications" do
 
     visit management_document_verifications_path
     fill_in "document_verification_document_number", with: "12345678Z"
-    fill_in "document_verification_phone_number", with: "5555555555"
+    fill_in "document_verification_phone_number", with: "905555555555"
     click_button "Check document"
 
     expect(page).to have_content "Please introduce the email used on the account"

@@ -63,6 +63,7 @@
 //= require gettext
 //= require annotator
 //= require jquery.amsify.suggestags
+//= require jquery.inputmask
 //= require tags
 //= require users
 //= require votes
@@ -115,6 +116,7 @@
 //= require budget_hide_money
 //= require datepicker
 //= require link_to_top
+//= require input_telephone_mask
 //= require_tree ./sdg
 //= require_tree ./sdg_management
 
@@ -172,6 +174,7 @@ var initialize_modules = function() {
   App.BudgetHideMoney.initialize();
   App.Datepicker.initialize();
   App.LinkToTop.initialize();
+  App.InputTelephoneMask.initialize();
   App.SDGRelatedListSelector.initialize();
   App.SDGManagementRelationSearch.initialize();
 };
