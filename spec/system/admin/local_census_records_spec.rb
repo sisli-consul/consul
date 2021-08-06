@@ -14,7 +14,7 @@ describe "Admin local census records", :admin do
     scenario "Should show existing local census records" do
       visit admin_local_census_records_path
 
-      expect(page).to have_content("DNI")
+      expect(page).to have_content("TC Kimlik No")
       expect(page).to have_content(local_census_record.document_number)
       expect(page).to have_content(local_census_record.date_of_birth)
       expect(page).to have_content(local_census_record.postal_code)

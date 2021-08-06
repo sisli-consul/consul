@@ -53,7 +53,7 @@ en:
         document_type:
           passport: Passport
           residence_card: Residence card
-          spanish_id: DNI
+          spanish_id: "TC Kimlik No"
         error_verifying_census: The Census was unable to verify your information. Please confirm that your census details are correct by calling to City Council or visit one Citizen Support Office.
         form_errors: prevented the verification of your residence
         terms: the terms and conditions of access
