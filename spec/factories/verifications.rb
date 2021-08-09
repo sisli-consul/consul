@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :local_census_record, class: "LocalCensusRecord" do
     sequence(:document_number) { |n| "DOC_NUMBER#{n}" }
     document_type { 1 }
-    phone_number { "5555555555" }
+    phone_number { "905555555555" }
     gender { "Erkek" }
     neighborhood { "neighborhood" }
   end
@@ -19,11 +19,11 @@ FactoryBot.define do
     user
     document_number
     document_type    { "1" }
-    phone_number     { "5555555555" }
+    phone_number     { "905555555555" }
     terms_of_service { "1" }
 
     trait :invalid do
-      phone_number { "6666666666" }
+      phone_number { "906666666666" }
     end
   end
 
@@ -31,7 +31,7 @@ FactoryBot.define do
     user
     document_number
     document_type { 1 }
-    phone_number { "6666666666" }
+    phone_number { "906666666666" }
   end
 
   factory :verification_sms, class: "Verification::Sms" do
@@ -58,6 +58,6 @@ FactoryBot.define do
   factory :verification_document, class: "Verification::Management::Document" do
     document_number
     document_type { "1" }
-    phone_number { "5555555555" }
+    phone_number { "905555555555" }
   end
 end

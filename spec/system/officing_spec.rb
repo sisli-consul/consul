@@ -175,9 +175,9 @@ describe "Poll Officing" do
       visit new_officing_residence_path
       expect(page).to have_selector("#residence_document_type")
 
-      select "DNI", from: "residence_document_type"
+      select "TC Kimlik No", from: "residence_document_type"
       fill_in "residence_document_number", with: "12345678Z"
-      fill_in "residence_phone_number", with: "5555555555"
+      fill_in "residence_phone_number", with: "905555555555"
       click_button "Validate document"
       expect(page).to have_content "Document verified with Census"
       click_button "Confirm vote"
@@ -194,9 +194,9 @@ describe "Poll Officing" do
       visit new_officing_residence_path
       expect(page).to have_selector("#residence_document_type")
 
-      select "DNI", from: "residence_document_type"
+      select "TC Kimlik No", from: "residence_document_type"
       fill_in "residence_document_number", with: "12345678Y"
-      fill_in "residence_phone_number", with: "5555555555"
+      fill_in "residence_phone_number", with: "905555555555"
       click_button "Validate document"
       expect(page).to have_content "Document verified with Census"
       click_button "Confirm vote"

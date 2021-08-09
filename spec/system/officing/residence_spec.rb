@@ -33,9 +33,9 @@ describe "Residence", :with_frozen_time do
         click_link "Validate document"
       end
 
-      select "DNI", from: "residence_document_type"
+      select "TC Kimlik No", from: "residence_document_type"
       fill_in "residence_document_number", with: "12345678Z"
-      fill_in "residence_phone_number", with: "5555555555"
+      fill_in "residence_phone_number", with: "905555555555"
 
       click_button "Validate document"
 
@@ -60,9 +60,9 @@ describe "Residence", :with_frozen_time do
         click_link "Validate document"
       end
 
-      select "DNI", from: "residence_document_type"
+      select "TC Kimlik No", from: "residence_document_type"
       fill_in "residence_document_number", with: "9999999A"
-      fill_in "residence_phone_number", with: "5555555555"
+      fill_in "residence_phone_number", with: "905555555555"
 
       click_button "Validate document"
 
@@ -81,9 +81,9 @@ describe "Residence", :with_frozen_time do
         click_link "Validate document"
       end
 
-      select "DNI", from: "residence_document_type"
+      select "TC Kimlik No", from: "residence_document_type"
       fill_in "residence_document_number", with: "12345678Z"
-      fill_in "residence_phone_number", with: "6666666666"
+      fill_in "residence_phone_number", with: "906666666666"
 
       click_button "Validate document"
 

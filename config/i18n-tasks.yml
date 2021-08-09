@@ -127,7 +127,6 @@ ignore_missing:
   - "budgets.progress_bar.you_have_assigned"
   - "admin.officials.index.help_link"
   - "debates.index.section_footer.help_text_link"
-  - "verification.residence.new.phone_number_help_text"
   - "verification.sms.api_message"
 
 ## Consider these keys used:

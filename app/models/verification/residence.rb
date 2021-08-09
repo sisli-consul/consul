@@ -19,6 +19,7 @@ class Verification::Residence
   def initialize(attrs = {})
     super
     clean_document_number
+    clean_phone_number
   end
 
   def save
@@ -74,6 +75,10 @@ class Verification::Residence
 
     def clean_document_number
       self.document_number = document_number.gsub(/[^a-z0-9]+/i, "").upcase if document_number.present?
+    end
+
+    def clean_phone_number
+      self.phone_number = phone_number.gsub(/[^0-9]+/i, "") if phone_number.present?
     end
 
     def generate_confirmation_code

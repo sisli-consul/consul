@@ -45,6 +45,7 @@ es:
         flash:
           success: Residencia verificada
       new:
+        phone_number_help_text: "Por favor, escribe el teléfono con el formato 905xxxxxxxxx"
         accept_terms_text: Acepto %{terms_url} al Padrón
         accept_terms_text_title: Acepto los términos de acceso al Padrón
         document_number: Número de documento

@@ -11,8 +11,8 @@ describe "Residence" do
     click_link "Verify my account"
 
     fill_in "residence_document_number", with: "12345678Z"
-    select "DNI", from: "residence_document_type"
-    fill_in "residence_phone_number", with: "5555555555"
+    select "TC Kimlik No", from: "residence_document_type"
+    fill_in "residence_phone_number", with: "555555555"
     check "residence_terms_of_service"
     click_button "Verify residence"
 
@@ -30,8 +30,8 @@ describe "Residence" do
     click_link "Verify my account"
 
     fill_in "residence_document_number", with: "12345678Z"
-    select "DNI", from: "residence_document_type"
-    fill_in "residence_phone_number", with: "5555555555"
+    select "TC Kimlik No", from: "residence_document_type"
+    fill_in "residence_phone_number", with: "555555555"
     check "residence_terms_of_service"
 
     click_button "Verify residence"
@@ -63,8 +63,8 @@ describe "Residence" do
     click_link "Verify my account"
 
     fill_in "residence_document_number", with: "012345678"
-    select "DNI", from: "residence_document_type"
-    fill_in "residence_phone_number", with: "5555555555"
+    select "TC Kimlik No", from: "residence_document_type"
+    fill_in "residence_phone_number", with: "555555555"
     check "residence_terms_of_service"
 
     click_button "Verify residence"
@@ -81,8 +81,8 @@ describe "Residence" do
 
     5.times do
       fill_in "residence_document_number", with: "012345678"
-      select "DNI", from: "residence_document_type"
-      fill_in "residence_phone_number", with: "5555555555"
+      select "TC Kimlik No", from: "residence_document_type"
+      fill_in "residence_phone_number", with: "555555555"
       check "residence_terms_of_service"
 
       click_button "Verify residence"
