@@ -41,11 +41,7 @@ every 1.day, at: "3:00 am", roles: [:cron] do
 end
 
 every 2.hours, roles: [:cron] do
-  rake "local_census:update"
-end if @environment == "production"
-
-every 1.day, at: "01:00 am", roles: [:cron] do
-  rake "users:update_verified"
+  rake "verified_users:update"
 end if @environment == "production"
 
 every :reboot do
